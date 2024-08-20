@@ -1,12 +1,18 @@
+Sure, here is the enhanced README with the additional features:
+
+---
+
 # Ntfy Newtab Subscriber
 
-Ntfy Newtab Subscriber is a Chrome extension that listens to one or more [ntfy.sh](https://ntfy.sh) topics and displays the messages in new browser tabs. 
+Ntfy Newtab Subscriber is a Chrome extension that listens to one or more [ntfy.sh](https://ntfy.sh) topics and displays the messages in new browser tabs.
 
 ## Features
 
 - **Tab Groups**: Automatically groups related tabs together based on the topic.
 - **Basic Authentication**: Support for Basic Auth to protected ntfy.sh services.
 - **Cached-History Support**: Keeps track of the message history to ensure no message is missed, even if the browser was closed.
+- **Attachments Support**: Displays messages with attachments directly within the tabs.
+- **Images Support**: Automatically shows images embedded in messages.
 
 ## Installation
 
@@ -22,3 +28,7 @@ Ntfy Newtab Subscriber is a Chrome extension that listens to one or more [ntfy.s
 3. Click "Save Settings".
 
 The extension will start listening to the specified ntfy.sh topics and will display new messages in separate tabs.
+
+---
+
+This README now includes the additional features for handling messages with attachments and images.
