@@ -14,12 +14,13 @@ async function createSSEConnection() {
     }
     
     const sseUrl = `${url}/${topics.join(',')}/sse`;
-    const authHeader = 'Basic ' + btoa(`${username}:${password}`);
+    const headers = new Headers();
+    headers.set('Accept', 'application/json');
 
-    const headers = {
-        'Authorization': authHeader,
-        'Accept': 'application/json'
-    };
+    if(username && password) {
+        const credentials = btoa(`${username}:${password}`);
+        headers.set('Authorization', `Basic ${credentials}`);
+    }
 
     while (true) {
         try {
