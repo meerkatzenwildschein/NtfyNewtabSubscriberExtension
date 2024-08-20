@@ -2,6 +2,7 @@
   "manifest_version": 3,
   "name": "Ntfy Newtab Subscriber",
   "version": "1.0",
+  "description": "Listens to one or more ntfy.sh topics and displays the messages in new browser tabs.",
   "permissions": [
     "activeTab",
     "storage",
