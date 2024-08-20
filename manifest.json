@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Ntfy Newtab Subscriber",
+  "version": "1.0",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "webRequest",
+    "tabs",
+    "tabGroups"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }, 
+  "icons": {
+    "128": "icons/icon128.png",
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
