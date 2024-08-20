@@ -16,11 +16,20 @@
       margin-bottom: 10px;
       padding: 5px;
     }
+    .required::after {
+      content: "*";
+      color: red;
+      margin-left: 5px;
+    }
+    .error {
+      color: red;
+      display: none;
+    }
   </style>
 </head>
 <body>
   <h1>Connection Settings</h1>
-  <label for="url">Url:</label>
+  <label for="url" class="required">URL:</label>
   <input type="text" id="url">
 
   <label for="username">Username:</label>
@@ -29,7 +38,7 @@
   <label for="password">Password:</label>
   <input type="password" id="password">
 
-  <label for="topics">Topics (comma separated):</label>
+  <label for="topics" class="required">Topics (comma separated):</label>
   <input type="text" id="topics">
 
   <button id="saveSettings">Save Settings</button>
