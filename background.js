@@ -1,6 +1,17 @@
+const keepAlive = (i => state => {
+    if (state && !i) {
+        if (performance.now() > 20e3) chrome.runtime.getPlatformInfo();
+        i = setInterval(chrome.runtime.getPlatformInfo, 20e3);
+    } else if (!state && i) {
+        clearInterval(i);
+        i = 0;
+    }
+})();
+
 const RENEW_CONNECTION_EACH_IN_MILLISECONDS = 60000;
 
 async function createSSEConnection() {
+    keepAlive(true);
     const {
         url,
         username,
@@ -48,10 +59,8 @@ async function createSSEConnection() {
                 console.log('Connected');
 
                 // Wait for data or timeout
-                const {
-                    done,
-                    value
-                } = await Promise.race([readPromise, timeoutPromise]);
+                const { value } = await Promise.race([readPromise, timeoutPromise]);
+
 
                 buffer += decoder.decode(value, {
                     stream: true
@@ -60,21 +69,17 @@ async function createSSEConnection() {
                 let position;
                 while ((position = buffer.indexOf('\n\n')) !== -1) {
                     const chunk = buffer.slice(0, position);
-                    buffer = buffer.slice(position + 2); // Entfernt "\n\n" aus dem buffer
+                    buffer = buffer.slice(position + 2); // Remove "\n\n" from buffer
 
                     if (chunk.startsWith('data: ')) {
-                        const eventData = chunk.slice(6); // Entfernt "data: "
-                        handleSSEMessage(eventData);
+                        const eventData = chunk.slice(6); // Remove "data: "
+                        await handleSSEMessage(eventData);
                     }
                 }
             }
         } catch (error) {
-            if (error.message === 'Read timeout') {
-                console.log('Read timed out, attempting to reconnect...');
-            } else {
-                console.error('SSE connection error:', error);
-                await new Promise(resolve => setTimeout(resolve, 5000));
-            }
+            console.error('SSE connection error:', error);
+            await new Promise(resolve => setTimeout(resolve, 5000));
         }
     }
 }
@@ -119,7 +124,7 @@ async function handleSSEMessage(data) {
         }
     }
 
-    setInStorage('lastMessageTime', message.time + 1)
+    await setInStorage('lastMessageTime', message.time + 1)
 }
 
 function createMessageTab(topic, title, content, attachment_url, attachment_name) {
@@ -204,7 +209,7 @@ function openInTabGroup(tabUrl, topic)
 }
 
 function getFromStorage(key) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         chrome.storage.sync.get(key, (data) => {
             if (chrome.runtime.lastError) {
                 resolve(null);
@@ -242,8 +247,4 @@ function isImageUrl(url) {
     return /\.(jpeg|jpg|gif|png|bmp|webp)$/i.test(url);
 }
 
-function startSSEConnection() {
-    createSSEConnection();
-}
-
-startSSEConnection();
+createSSEConnection();
