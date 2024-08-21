@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Validate authentication input
-    const isAuthValid = (username && password && !accessToken) || (!username && !password && accessToken);
+    const isAuthValid = (username && password && !accessToken) || (!username && !password && accessToken) || (!username && !password && !accessToken);
 
     if (!isAuthValid) {
       errorMessage.innerText = 'Either provide Username and Password, or an Access Token, but not both.';
