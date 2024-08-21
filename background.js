@@ -14,6 +14,7 @@ async function createSSEConnection() {
     keepAlive(true);
     const {
         url,
+        accessToken,
         username,
         password,
         topics
@@ -31,6 +32,9 @@ async function createSSEConnection() {
     if(username && password) {
         const credentials = btoa(`${username}:${password}`);
         headers.set('Authorization', `Basic ${credentials}`);
+    }
+    if (accessToken) {
+        headers.set('Authorization', `Bearer ${accessToken}`);
     }
 
     while (true) {
@@ -86,12 +90,13 @@ async function createSSEConnection() {
 
 function getSettings() {
     return new Promise((resolve, reject) => {
-        chrome.storage.sync.get(['url', 'username', 'password', 'topics'], (data) => {
+        chrome.storage.sync.get(['url', 'accessToken', 'username', 'password', 'topics'], (data) => {
             if (chrome.runtime.lastError) {
                 reject(new Error(chrome.runtime.lastError));
             } else {
                 resolve({
                     url: data.url || '',
+                    accessToken: data.accessToken || '',
                     username: data.username || '',
                     password: data.password || '',
                     topics: data.topics ? data.topics.split(',').map(topic => topic.trim()) : []
