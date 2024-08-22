@@ -240,12 +240,8 @@ function setInStorage(key, value) {
 }
 
 function isURL(string) {
-    try {
-        new URL(string);
-        return true;
-    } catch (_) {
-        return false;
-    }
+    const urlPattern = /^(https?:\/\/)?([\da-z.-]+\.[a-z.]{2,6})([/\w .-]*)*\/?$/;
+    return urlPattern.test(string);
 }
 
 function isImageUrl(url) {
