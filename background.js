@@ -137,7 +137,7 @@ function createMessageTab(topic, title, content, attachment_url, attachment_name
     let downloadButton = '';
     
     if (isImageUrl(attachment_url)) {
-        imageTag = `<img src="${attachment_url}" alt="Image" style="max-width: 100%; max-height: 100%;">`;
+        imageTag = `<img src="${attachment_url}" alt="Image" style="max-width: 100%; max-height: 100%;"><br>`;
     } 
     if(attachment_url) {
         downloadButton = `<a href="${attachment_url}" download="attachment" style="margin-top: 10px; padding: 10px 20px; background-color: #8FBCBB; color: white; text-decoration: none; border-radius: 5px; display: inline-block;">Download ${attachment_name}</a>`;
