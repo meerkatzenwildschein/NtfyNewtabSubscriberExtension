@@ -194,7 +194,7 @@ function createMessageTab(topic, title, content, attachment_url, attachment_name
 function openInTabGroup(tabUrl, topic)
 {
     chrome.tabs.create({ url: tabUrl }, (tab) => {
-        const tabGroupName = `${topic} Ntfy Newtab Subscriber`;
+        const tabGroupName = topic;
 
         // Get all tab groups
         chrome.tabGroups.query({}, (groups) => {
