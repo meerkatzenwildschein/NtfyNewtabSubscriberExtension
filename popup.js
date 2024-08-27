@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Save data and hide the error message
     errorMessage.style.display = 'none';
     chrome.storage.sync.set({ url, accessToken, username, password, topics, lastMessageTime }, () => {
-      alert('Settings saved!');
       chrome.runtime.reload();
     });
   });
