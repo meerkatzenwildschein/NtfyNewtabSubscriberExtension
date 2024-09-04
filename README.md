@@ -24,3 +24,16 @@ Ntfy Newtab Subscriber is a Chrome extension that listens to one or more [ntfy.s
 3. Click "Save Settings".
 
 The extension will start listening to the specified ntfy.sh topics and will display new messages in separate tabs.
+
+## Screens
+![Configuration Popup](/assets/config_screen.png)  
+*Configuration Popup*
+
+![An image received and displayed in a new browser tab](/assets/browser_screenshot_1.png)  
+*An image received and displayed in a new browser tab*
+
+![A file received and displayed in a new browser tab](/assets/browser_screenshot_2.png)  
+*A file received and displayed in a new browser tab*
+
+![A text message received and sent and displayed in a new browser tab](/assets/browser_screenshot_3.png)  
+*A text message received and sent and displayed in a new browser tab*
