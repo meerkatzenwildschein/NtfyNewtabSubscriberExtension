@@ -1,17 +1,6 @@
-const keepAlive = (i => state => {
-    if (state && !i) {
-        if (performance.now() > 20e3) chrome.runtime.getPlatformInfo();
-        i = setInterval(chrome.runtime.getPlatformInfo, 20e3);
-    } else if (!state && i) {
-        clearInterval(i);
-        i = 0;
-    }
-})();
-
 const RENEW_CONNECTION_EACH_IN_MILLISECONDS = 60000;
 
 async function createSSEConnection() {
-    keepAlive(true);
     const {
         url,
         accessToken,
@@ -249,3 +238,8 @@ function isImageUrl(url) {
 }
 
 createSSEConnection();
+
+// https://stackoverflow.com/questions/66618136/persistent-service-worker-in-chrome-extension/66618269#66618269
+const keepAlive = () => setInterval(chrome.runtime.getPlatformInfo, 20e3);
+chrome.runtime.onStartup.addListener(keepAlive);
+keepAlive();
