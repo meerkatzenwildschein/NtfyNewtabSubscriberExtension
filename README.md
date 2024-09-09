@@ -10,6 +10,9 @@ Ntfy Newtab Subscriber is a Chrome extension that listens to one or more [ntfy.s
 - **Attachments Support**: Displays messages with attachments directly within the tabs.
 - **Images Support**: Automatically shows images embedded in messages.
 
+## Known Issues
+Google Crome sets plugins to idle state, which unfortunately can only be prevented to a limited extent, so that messages are sometimes only delivered after a browser restart. As a work-around, you can open the configuration dialogue and press the save button without making any changes. The plugin will then be reloaded.
+
 ## Installation
 
 1. Clone the repository or download the zip file and extract it.
