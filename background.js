@@ -28,8 +28,8 @@ async function createSSEConnection() {
 
     while (true) {
         try {
-            console.log('Connecting to: ', sseUrl);
             const lastMessageTime = await getFromStorage('lastMessageTime');
+			console.log(`Connecting: Url=${sseUrl}, lastMessageTime=${lastMessageTime}`);
             const response = await fetch(sseUrl + '?since=' + lastMessageTime, {
                 headers: headers
             });

@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const username = usernameInput.value.trim();
     const password = passwordInput.value;
     const topics = topicsInput.value.split(',').map(topic => topic.trim()).join(',');
-    const lastMessageTime = Math.floor(Date.now() / 1000);
 
     // Check if URL and topics are provided
     if (!url || !topics) {
@@ -47,11 +46,28 @@ document.addEventListener('DOMContentLoaded', function () {
       errorMessage.style.display = 'block';
       return;
     }
+	
+	// Retrieve the current topics from storage to compare with the new ones
+    chrome.storage.sync.get(['url', 'topics', 'lastMessageTime'], (data) => {
+      const savedTopics = data.topics;
+	  const savedUrl = data.url;
+      let lastMessageTime = data.lastMessageTime;
 
-    // Save data and hide the error message
-    errorMessage.style.display = 'none';
-    chrome.storage.sync.set({ url, accessToken, username, password, topics, lastMessageTime }, () => {
-      chrome.runtime.reload();
+      if (savedTopics !== topics) {
+        // Update lastMessageTime only if topics have changed
+        lastMessageTime = Math.floor(Date.now() / 1000);
+      }
+	  
+	  if (savedUrl !== url) {
+        // Update lastMessageTime only if topics have changed
+        lastMessageTime = Math.floor(Date.now() / 1000);
+      }
+
+      // Save data and hide the error message
+      errorMessage.style.display = 'none';
+      chrome.storage.sync.set({ url, accessToken, username, password, topics, lastMessageTime }, () => {
+        chrome.runtime.reload();
+      });
     });
   });
 
