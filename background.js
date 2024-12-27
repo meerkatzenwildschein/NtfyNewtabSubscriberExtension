@@ -1,4 +1,4 @@
-const RENEW_CONNECTION_EACH_IN_MILLISECONDS = 60000;
+const CONNECTION_WAIT_TIMEOUT_IN_MILLISECONDS = 58000;
 
 async function createSSEConnection() {
     const {
@@ -25,11 +25,11 @@ async function createSSEConnection() {
     if (accessToken) {
         headers.set('Authorization', `Bearer ${accessToken}`);
     }
-
+    
     while (true) {
         try {
             const lastMessageTime = await getFromStorage('lastMessageTime');
-			console.log(`Connecting: Url=${sseUrl}, lastMessageTime=${lastMessageTime}`);
+            console.log(`Connecting: Url=${sseUrl}, lastMessageTime=${lastMessageTime}`);
             const response = await fetch(sseUrl + '?since=' + lastMessageTime, {
                 headers: headers
             });
@@ -44,17 +44,16 @@ async function createSSEConnection() {
             let buffer = '';
 
             while (true) {
-                const readPromise = reader.read();
-                const timeoutPromise = new Promise((_, reject) =>
-                    setTimeout(() => reject(new Error('Read timeout')), RENEW_CONNECTION_EACH_IN_MILLISECONDS)
-                );
+                console.log('Reading...');
 
-                console.log('Connected');
+                // Waiting for data
+                const { value, done } = await reader.read();
 
-                // Wait for data or timeout
-                const { value } = await Promise.race([readPromise, timeoutPromise]);
-
-
+                if (done) {
+                    console.log('Stream closed');
+                    break;
+                }
+                
                 buffer += decoder.decode(value, {
                     stream: true
                 });
@@ -240,6 +239,13 @@ function isImageUrl(url) {
 createSSEConnection();
 
 // https://stackoverflow.com/questions/66618136/persistent-service-worker-in-chrome-extension/66618269#66618269
-const keepAlive = () => setInterval(chrome.runtime.getPlatformInfo, 20e3);
-chrome.runtime.onStartup.addListener(keepAlive);
-keepAlive();
+async function createOffscreen() {
+  await chrome.offscreen.createDocument({
+    url: 'offscreen.html',
+    reasons: ['BLOBS'],
+    justification: 'keep service worker running',
+  }).catch(() => {});
+}
+chrome.runtime.onStartup.addListener(createOffscreen);
+self.onmessage = e => {}; // keepAlive
+createOffscreen();
