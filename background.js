@@ -179,29 +179,8 @@ function createMessageTab(topic, title, content, attachment_url, attachment_name
     openInTabGroup(tabUrl, topic);
 }
 
-function openInTabGroup(tabUrl, topic)
-{
-    chrome.tabs.create({ url: tabUrl }, (tab) => {
-        const tabGroupName = topic;
-
-        // Get all tab groups
-        chrome.tabGroups.query({}, (groups) => {
-            let group = groups.find(g => g.title === tabGroupName);
-
-            if (group) {
-                // If the group exists, capture the groupId
-                chrome.tabs.group({ groupId: group.id, tabIds: tab.id });
-            } else {
-                // If the group does not exist, create a new group and add the tab to it
-                chrome.tabs.group({ tabIds: tab.id }, (groupId) => {
-                    if(groupId)
-                    {
-                        chrome.tabGroups.update(groupId, { title: tabGroupName });
-                    }
-                });
-            }
-        });
-    });
+function openInTabGroup(tabUrl, topic) {
+  chrome.tabs.create({ url: tabUrl });
 }
 
 function getFromStorage(key) {
