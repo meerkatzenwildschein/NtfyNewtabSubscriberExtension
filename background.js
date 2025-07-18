@@ -194,7 +194,10 @@ function openInTabGroup(tabUrl, topic)
             } else {
                 // If the group does not exist, create a new group and add the tab to it
                 chrome.tabs.group({ tabIds: tab.id }, (groupId) => {
-                    chrome.tabGroups.update(groupId, { title: tabGroupName });
+                    if(groupId)
+                    {
+                        chrome.tabGroups.update(groupId, { title: tabGroupName });
+                    }
                 });
             }
         });
