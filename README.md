@@ -4,7 +4,6 @@ Ntfy Newtab Subscriber is a Chrome extension that listens to one or more [ntfy.s
 
 ## Features
 
-- **Tab Groups**: Automatically groups related tabs together based on the topic.
 - **Basic Authentication**: Support for Basic Auth to protected ntfy.sh services.
 - **Cached-History Support**: Keeps track of the message history to ensure no message is missed, even if the browser was closed.
 - **Attachments Support**: Displays messages with attachments directly within the tabs.
